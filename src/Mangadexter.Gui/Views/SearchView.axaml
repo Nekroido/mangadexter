@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+			 xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:vm="clr-namespace:Mangadexter.Gui.ViewModels"
+             xmlns:dvm="clr-namespace:Mangadexter.Gui.ViewModels.DesignTime"
+             xmlns:cc="clr-namespace:Mangadexter.Gui.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Mangadexter.Gui.Views.SearchView"
+             x:DataType="vm:SearchViewModel">
+	<Design.DataContext>
+		<dvm:DesignSearchViewModel />
+	</Design.DataContext>
+
+	<UserControl.Resources>
+		<DataTemplate x:Key="MangaListItem">
+			<cc:MangaListItem Margin="4" />
+		</DataTemplate>
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!-- Search form -->
+		<Grid Grid.Row="0" Margin="8,8,8,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="75*" />
+				<ColumnDefinition Width="25*" />
+			</Grid.ColumnDefinitions>
+			<TextBox Text="{Binding SearchTerm, Mode=TwoWay}"
+					 Watermark="Title to search for"
+					 Grid.Column="0"
+					 Margin="0,0,8,0"/>
+			<Button Content="Search"
+					Command="{Binding SearchCommand}"
+					Grid.Column="1"/>
+		</Grid>
+
+		<!-- Search results -->
+		<RefreshContainer Grid.Row="1"
+						  x:Name="RefreshContainer"
+						  IsVisible="{Binding !IsLoading}"
+						  PullDirection="TopToBottom">
+			<i:Interaction.Behaviors>
+				<ia:EventTriggerBehavior EventName="RefreshRequested"
+										 SourceObject="{Binding #RefreshContainer}">
+					<ia:InvokeCommandAction Command="{Binding SearchCommand}" />
+				</ia:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
+			<ListBox ItemsSource="{Binding Items}"
+					 SelectionMode="Single"
+					 SelectionChanged="ListBox_SelectionChanged"
+					 ItemTemplate="{StaticResource MangaListItem}"
+					 VerticalAlignment="Top">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<UniformGrid Columns="2" />
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+			</ListBox>
+		</RefreshContainer>
+
+		<!-- States -->
+		<ProgressBar Grid.Row="1"
+					 IsVisible="{Binding IsLoading}"
+					 IsIndeterminate="True"
+					 VerticalAlignment="Top" />
+	</Grid>
+</UserControl>

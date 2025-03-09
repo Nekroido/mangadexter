@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<AvaloniaResource Remove="Assets\Resources.Designer.cs" />
+		<AvaloniaResource Remove="Assets\Resources.resx" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Remove="Assets\cover.jpg" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\Resources.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.2.5" />
+		<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.1.1" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.5" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.5" />
+		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.13" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.5" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Mangadexter.Core.Mangadex\Mangadexter.Core.Mangadex.fsproj" />
+		<ProjectReference Include="..\Mangadexter.Core\Mangadexter.Core.fsproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Assets\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Assets\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+</Project>

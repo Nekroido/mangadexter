@@ -1,0 +1,98 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:local="clr-namespace:Mangadexter.Gui.Controls"
+			 xmlns:assets="clr-namespace:Mangadexter.Gui.Assets"
+			 xmlns:vm="clr-namespace:Mangadexter.Gui.ViewModels.Controls"
+			 xmlns:converters="clr-namespace:Mangadexter.Gui.DataValueConverters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Mangadexter.Gui.Controls.MangaListItem">
+	<UserControl.Resources>
+		<converters:JoinAuthors x:Key="joinAuthors" />
+		<converters:ConvertFromWeb x:Key="convertFromWeb" />
+	</UserControl.Resources>
+
+	<Design.DataContext>
+		<vm:MangaListItemViewModel />
+	</Design.DataContext>
+
+	<Border Padding="8"
+			Background="DarkGray"
+			BorderThickness="2"
+			CornerRadius="8">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Border Grid.Column="0"
+					Grid.Row="0"
+					Grid.RowSpan="2"
+					CornerRadius="6"
+					BoxShadow="5 5 10 0 Gray"
+					VerticalAlignment="Top">
+				<Border CornerRadius="6"
+						ClipToBounds="True"
+						VerticalAlignment="Top">
+					<local:WebImage ImageUrl="{Binding Cover}"
+									Width="160"
+									VerticalAlignment="Top"
+									RenderOptions.BitmapInterpolationMode="HighQuality" />
+				</Border>
+			</Border>
+			<StackPanel Grid.Column="1"
+						Grid.Row="0"
+						Spacing="8"
+						Orientation="Vertical"
+						Margin="8">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0"
+							   Text="{Binding Title}"
+							   TextWrapping="WrapWithOverflow"
+							   VerticalAlignment="Top"
+							   FontWeight="Bold"/>
+					<TextBlock Grid.Column="1"
+							   Text="{Binding Year}"
+							   VerticalAlignment="Top" />
+				</Grid>
+				<TextBlock Text="{Binding Authors, Converter={StaticResource joinAuthors}}"
+						   FontSize="12" />
+				<TextBlock Text="{Binding Description}"
+						   HorizontalAlignment="Stretch"
+						   TextWrapping="WrapWithOverflow"
+						   TextTrimming="WordEllipsis"
+						   MaxHeight="120" />
+			</StackPanel>
+
+			<StackPanel Grid.Column="1"
+						Grid.Row="1"
+						Orientation="Horizontal"
+						Margin="8,0"
+						Spacing="8">
+				<StackPanel Orientation="Horizontal"
+							Spacing="4"
+							IsVisible="{Binding !!LatestChapter}">
+					<TextBlock Text="{x:Static assets:Resources.Manga_LatestChapter}" />
+					<TextBlock Text="{Binding LatestChapter}"
+							   FontWeight="Bold"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal"
+							Spacing="4"
+							IsVisible="{Binding !!LatestVolume}">
+					<TextBlock Text="{x:Static assets:Resources.Manga_LatestVolume}" />
+					<TextBlock Text="{Binding LatestVolume}"
+							   FontWeight="Bold"/>
+				</StackPanel>
+			</StackPanel>
+		</Grid>
+	</Border>
+</UserControl>

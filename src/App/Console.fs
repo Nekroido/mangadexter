@@ -27,7 +27,7 @@ module SelectionPrompt =
         prompt.Title <- title
         prompt
 
-    let create<'a> title = SelectionPrompt<'a>() |> setTitle title
+    let create<'a when 'a: not null> title = SelectionPrompt<'a>() |> setTitle title
 
     let addChoices (choices: _ seq) (prompt: SelectionPrompt<_>) =
         prompt.AddChoices choices
@@ -37,7 +37,7 @@ module SelectionPrompt =
         prompt
 
 module MenuPrompt =
-    let create<'a> title options formatter =
+    let create<'a when 'a: not null> title options formatter =
         SelectionPrompt.create<'a> title
         |> SelectionPrompt.addChoices options
         |> SelectionPrompt.withConverter (Func<'a, string>(formatter))
@@ -47,7 +47,7 @@ module MultiSelectionPrompt =
         prompt.Title <- title
         prompt
 
-    let create<'a> title =
+    let create<'a when 'a: not null> title =
         MultiSelectionPrompt<'a>() |> setTitle title
 
     let addChoiceGroup

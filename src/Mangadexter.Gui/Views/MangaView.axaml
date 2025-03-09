@@ -1,0 +1,125 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+			 xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:vm="clr-namespace:Mangadexter.Gui.ViewModels"
+             xmlns:dvm="clr-namespace:Mangadexter.Gui.ViewModels.DesignTime"
+			 xmlns:assets="clr-namespace:Mangadexter.Gui.Assets"
+			 xmlns:converters="clr-namespace:Mangadexter.Gui.DataValueConverters"
+             xmlns:cc="clr-namespace:Mangadexter.Gui.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1200"
+             x:Class="Mangadexter.Gui.Views.MangaView"
+             x:DataType="vm:MangaViewModel"
+			 Padding="8">
+	<Design.DataContext>
+		<dvm:DesignMangaViewModel />
+	</Design.DataContext>
+
+	<UserControl.Resources>
+		<converters:JoinAuthors x:Key="joinAuthors" />
+	</UserControl.Resources>
+
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded">
+			<ia:InvokeCommandAction Command="{Binding LoadChaptersCommand}" />
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>	
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Border Grid.Row="0"
+				Padding="0,8"
+				BorderBrush="LightGray"
+				BorderThickness="0,0,0,2">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0"
+						   Text="{Binding Manga.Title}"
+						   TextWrapping="WrapWithOverflow"
+						   VerticalAlignment="Top"
+						   FontWeight="Bold"/>
+				<TextBlock Grid.Column="1"
+						   Text="{Binding Manga.Year}"
+						   VerticalAlignment="Top" />
+			</Grid>
+		</Border>
+
+		<ScrollViewer Grid.Row="1">
+			<StackPanel Orientation="Vertical">
+				<Border Padding="0,8"
+						BorderBrush="LightGray"
+						BorderThickness="0,0,0,2">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+						<Border Grid.Column="0"
+								Grid.Row="0"
+								Grid.RowSpan="2"
+								CornerRadius="6"
+								BoxShadow="5 5 10 0 Gray"
+								VerticalAlignment="Top">
+							<Border CornerRadius="6"
+									ClipToBounds="True"
+									VerticalAlignment="Top">
+								<cc:WebImage ImageUrl="{Binding Manga.Cover}"
+											 Width="320"
+											 VerticalAlignment="Top"
+											 RenderOptions.BitmapInterpolationMode="HighQuality" />
+							</Border>
+						</Border>
+						<StackPanel Grid.Column="1"
+									Grid.Row="0"
+									Spacing="8"
+									Orientation="Vertical"
+									Margin="8,0">
+							<TextBlock Text="{Binding Manga.Authors, Converter={StaticResource joinAuthors}}"
+									   FontSize="12" />
+							<TextBlock Text="{Binding Manga.Description}"
+									   HorizontalAlignment="Stretch"
+									   TextWrapping="WrapWithOverflow"/>
+						</StackPanel>
+
+						<StackPanel Grid.Column="1"
+									Grid.Row="1"
+									Orientation="Horizontal"
+									Margin="8,0"
+									Spacing="8">
+							<StackPanel Orientation="Horizontal"
+										Spacing="4"
+										IsVisible="{Binding !!Manga.LatestChapter}">
+								<TextBlock Text="{x:Static assets:Resources.Manga_LatestChapter}" />
+								<TextBlock Text="{Binding Manga.LatestChapter}"
+										   FontWeight="Bold"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal"
+										Spacing="4"
+										IsVisible="{Binding !!Manga.LatestVolume}">
+								<TextBlock Text="{x:Static assets:Resources.Manga_LatestVolume}" />
+								<TextBlock Text="{Binding Manga.LatestVolume}"
+										   FontWeight="Bold"/>
+							</StackPanel>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<!-- Chapters -->
+				<ListBox ItemsSource="{Binding Chapters}"></ListBox>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</UserControl>
