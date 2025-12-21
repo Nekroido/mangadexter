@@ -1,4 +1,4 @@
-# .NET 5.0 → 8.0 LTS Migration
+# .NET 5.0 → 10.0 LTS Migration
 
 ## Value
 
