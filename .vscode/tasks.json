@@ -1,14 +1,39 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "msbuild",
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"group": "build",
-			"label": "Build: App.fsproj",
-			"detail": "Build the App.fsproj project using dotnet build"
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build: App.fsproj",
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["build", "src/App/App.fsproj", "-c", "Debug"],
+      "problemMatcher": ["$msCompile"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Build: App.fsproj (Release)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["build", "src/App/App.fsproj", "-c", "Release"],
+      "problemMatcher": ["$msCompile"]
+    },
+    {
+      "label": "Run: App",
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["run", "--project", "src/App/App.fsproj"],
+      "group": "test",
+      "problemMatcher": ["$msCompile"]
+    },
+    {
+      "label": "Build: App.Tests",
+      "type": "shell",
+      "command": "dotnet",
+      "args": ["build", "src/App.Tests/App.Tests.fsproj", "-c", "Debug"],
+      "problemMatcher": ["$msCompile"],
+      "group": "test"
+    }
+  ]
 }
