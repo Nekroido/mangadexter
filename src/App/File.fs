@@ -16,7 +16,7 @@ type Metadata =
     { title: string
       series: string
       credits: Credits seq
-      publicationYear: int option
+      publicationYear: int
       tags: string seq
       volume: int option
       issue: decimal }

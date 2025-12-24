@@ -8,9 +8,7 @@ open Utils
 let BaseUrl = "https://api.mangadex.org/"
 
 [<Literal>]
-let ChapterServerSampleUrl =
-    BaseUrl
-    + "at-home/server/b9d10b86-c956-4191-b05b-6cce5143cee4"
+let ChapterServerSampleUrl = "chapter-server-sample.json"
 
 [<Literal>]
 let MangaListSampleUrl =

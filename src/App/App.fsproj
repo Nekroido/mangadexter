@@ -2,11 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Update="Strings.resx" />
     <EmbeddedResource Include="chapters-sample.json" />
+    <EmbeddedResource Include="chapter-server-sample.json" />
     <EmbeddedResource Include="preferences.yaml" />
     <Compile Include="Utils.fs" />
     <Compile Include="Console.fs" />
@@ -26,5 +27,15 @@
     <None Include="test2.fsx" />
     <None Include="test3.fsx" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
+  <ItemGroup>
+    <!-- Package References (versions managed in Directory.Packages.props) -->
+    <PackageReference Include="AsyncSeq" />
+    <PackageReference Include="FSharp.Core" />
+    <PackageReference Include="FSharp.Configuration" />
+    <PackageReference Include="FSharp.Data" />
+    <PackageReference Include="Spectre.Console" />
+    <PackageReference Include="FSharp.SystemTextJson" />
+    <PackageReference Include="DotNetZip" />
+  </ItemGroup>
 </Project>
