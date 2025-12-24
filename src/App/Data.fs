@@ -50,16 +50,28 @@ type Relationship = MangaList.Relationship
 module Manga =
     type T = Manga
 
+    /// <summary>Gets the localized title of a manga.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Manga title in English, or "---" if not available</returns>
     let getTitle (manga: T) : string =
         manga.Attributes.Title.En
         |> Option.defaultValue "---"
 
+    /// <summary>Gets the publication year of a manga.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Publication year as uint option</returns>
     let getYear (manga: T) = manga.Attributes.Year
 
+    /// <summary>Gets all tags associated with a manga.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Sequence of localized tag names</returns>
     let getTags (manga: T) =
         manga.Attributes.Tags
         |> Seq.map (fun tag -> tag.Attributes.Name.En)
 
+    /// <summary>Gets author and artist relationships for a manga.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Sequence of author/artist relationship objects</returns>
     let getCredits (manga: T) : Relationship seq =
         manga.Relationships
         |> Seq.filter
@@ -67,16 +79,28 @@ module Manga =
                 r.Attributes.IsSome
                 && [ "author"; "artist" ] |> Seq.contains r.Type)
 
+    /// <summary>Gets formatted comma-separated list of credits.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Formatted string of author and artist names</returns>
     let getFormattedCredits (manga: T) =
         manga
         |> getCredits
         |> Seq.map (fun credit -> credit.Attributes.Value.Name)
         |> String.join ", "
 
+    /// <summary>Gets the last chapter number available for a manga.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Last chapter number as string option</returns>
     let getLastChapterNumber (manga: T) = manga.Attributes.LastChapter
 
+    /// <summary>Gets the publication status of a manga.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Status string (e.g., "ongoing", "completed")</returns>
     let getStatus (manga: T) = manga.Attributes.Status
 
+    /// <summary>Converts manga object to its string representation.</summary>
+    /// <param name="manga">Manga object</param>
+    /// <returns>Manga title</returns>
     let toString (manga: T) = manga |> getTitle
 
 module Chapter =
@@ -84,19 +108,35 @@ module Chapter =
 
     open Preferences
 
+    /// <summary>Gets page image URLs for a chapter at specified quality.</summary>
+    /// <param name="quality">Quality level (High or Low resolution)</param>
+    /// <param name="chapter">Chapter object</param>
+    /// <returns>Sequence of page filenames</returns>
     let getPages quality (chapter: T) =
         match quality with
         | Quality.High -> chapter.Attributes.Data
         | Quality.Low -> chapter.Attributes.DataSaver
 
+    /// <summary>Gets the chapter number.</summary>
+    /// <param name="chapter">Chapter object</param>
+    /// <returns>Chapter number as decimal option</returns>
     let getChapter (chapter: T) = chapter.Attributes.Chapter
 
+    /// <summary>Gets formatted chapter number with padding.</summary>
+    /// <param name="chapter">Chapter object</param>
+    /// <returns>Formatted chapter number string (e.g., "001.000")</returns>
     let getFormattedChapterNumber (chapter: T) =
         (chapter |> getChapter).ToString("000.###")
 
+    /// <summary>Gets formatted chapter display string.</summary>
+    /// <param name="chapter">Chapter object</param>
+    /// <returns>Display string like "Chapter 001.000"</returns>
     let getFormattedChapter (chapter: T) =
         $"Chapter {chapter |> getFormattedChapterNumber}"
 
+    /// <summary>Gets the chapter title.</summary>
+    /// <param name="chapter">Chapter object</param>
+    /// <returns>Chapter title or empty string if not available</returns>
     let getTitle (chapter: T) =
         chapter.Attributes.Title |> Option.defaultValue ""
 

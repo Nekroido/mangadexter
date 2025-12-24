@@ -82,22 +82,40 @@ type CBZBuilder() =
         settings.SavePath |> Directory.createForPath
 
         if File.Exists settings.SavePath then
-            // todo: delete existing file ?
             File.Delete settings.SavePath
 
-        use zip = new Ionic.Zip.ZipFile(settings.SavePath)
+        // Create temporary directory for CBZ assembly
+        let tempDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.Guid.NewGuid().ToString())
+        System.IO.Directory.CreateDirectory(tempDir) |> ignore
 
-        zip.Comment <- metadata
+        try
+            // Write metadata file
+            let metadataPath = System.IO.Path.Combine(tempDir, "metadata.xml")
+            System.IO.File.WriteAllText(metadataPath, metadata)
 
-        settings.Pages
-        |> Seq.iteri
-            (fun index (filename, page) ->
-                page.Seek(0, SeekOrigin.Begin) |> ignore
+            // Write page files to temp directory
+            settings.Pages
+            |> Seq.iteri
+                (fun index (filename, page) ->
+                    page.Seek(0, SeekOrigin.Begin) |> ignore
+                    let entryName = $"%03d{index}{filename |> Path.getFileExtension}"
+                    let tempPath = System.IO.Path.Combine(tempDir, entryName)
+                    use fileStream = System.IO.File.Create(tempPath)
+                    page.CopyTo(fileStream))
 
-                // adding or updating entry
-                zip.UpdateEntry($"%03d{index}{filename |> Path.getFileExtension}", page)
-                |> ignore)
+            // Create CBZ (zip) file from temp directory
+            use zip = new ICSharpCode.SharpZipLib.Zip.ZipFile(settings.SavePath)
+            
+            let files = System.IO.Directory.GetFiles(tempDir)
+            for file in files do
+                zip.Add(file, System.IO.Path.GetFileName(file)) |> ignore
 
-        zip.Save()
+            zip.CommitUpdate()
+            zip.Close()
+        finally
+            // Clean up temporary directory
+            try
+                System.IO.Directory.Delete(tempDir, true)
+            with _ -> ()
 
 let cbzBuilder = CBZBuilder()

@@ -36,6 +36,6 @@
     <PackageReference Include="FSharp.Data" />
     <PackageReference Include="Spectre.Console" />
     <PackageReference Include="FSharp.SystemTextJson" />
-    <PackageReference Include="DotNetZip" />
+    <PackageReference Include="SharpZipLib" />
   </ItemGroup>
 </Project>
