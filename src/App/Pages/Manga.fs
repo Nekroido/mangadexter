@@ -9,22 +9,12 @@ open Utils
 
 let formatVolume volume =
     let volume = volume |> Option.defaultValue "-"
-
-    $"Volume {volume}"
+    (Strings.Strings.GetString "Manga.Volume").Replace("{0}", volume)
 
 let formatChapter chapter =
     [ chapter |> Chapter.getFormattedChapter
       chapter |> Chapter.getFormattedTranslatorGroup ]
     |> String.join " - "
-
-[<Literal>]
-let ListChaptersLabel = "Select chapters to download"
-
-[<Literal>]
-let DownloadAllChaptersLabel = "Download all chapters"
-
-[<Literal>]
-let ReturnLabel = "← Return"
 
 [<RequireQualifiedAccess>]
 type Action =
@@ -34,15 +24,15 @@ type Action =
 
     static member toString x =
         match x with
-        | Action.ListChapters -> ListChaptersLabel
-        | Action.DownloadAllChapters -> DownloadAllChaptersLabel
-        | Action.Return -> ReturnLabel
+        | Action.ListChapters -> Strings.Strings.GetString "Pages.Manga.Actions.SelectChapters"
+        | Action.DownloadAllChapters -> Strings.Strings.GetString "Pages.Manga.Actions.DownloadAllChapters"
+        | Action.Return -> Strings.Strings.GetString "Pages.Manga.Actions.Return"
 
     static member fromString x =
         match x with
-        | ListChaptersLabel -> Action.ListChapters
-        | DownloadAllChaptersLabel -> Action.DownloadAllChapters
-        | ReturnLabel -> Action.Return
+        | s when s = Strings.Strings.GetString "Pages.Manga.Actions.SelectChapters" -> Action.ListChapters
+        | s when s = Strings.Strings.GetString "Pages.Manga.Actions.DownloadAllChapters" -> Action.DownloadAllChapters
+        | s when s = Strings.Strings.GetString "Pages.Manga.Actions.Return" -> Action.Return
         | _ -> failwith $"Unknown action {x}"
 
 let renderMangaDetails (manga: Manga) =
@@ -64,7 +54,7 @@ let showActions (manga: Manga) =
     manga |> renderMangaDetails |> Console.render
 
     MenuPrompt.create<Action>
-        "Select action:"
+        (Strings.Strings.GetString "Pages.Manga.SelectAction")
         (DiscriminatedUnion.listCases<Action> ())
         Action.toString
     |> Console.prompt
@@ -92,7 +82,7 @@ let fetchChapters (manga: Manga) =
     AsyncSeq.unfoldAsync batchChapters 0
     |> AsyncSeq.concatSeq
     |> AsyncSeq.toArray
-    |> Console.status $"Fetching chapters for %s{manga |> Manga.getTitle}"
+    |> Console.status ((Strings.Strings.GetString "Pages.Manga.FetchChaptersStatus").Replace("{0}", manga |> Manga.getTitle))
 
 let filterDuplicatedChapters (chapters: Chapter seq) =
     chapters
@@ -110,7 +100,7 @@ let pickChaptersByName (chapters: Chapter seq) (selectedChapters: string seq) =
 
 let selectChapters (chapters: Chapter seq) =
     let prompt =
-        MultiSelectionPrompt.create<string> "Select chapters:"
+        MultiSelectionPrompt.create<string> (Strings.Strings.GetString "Pages.Manga.SelectChaptersPrompt")
 
     chapters
     |> Seq.sortBy Chapter.getFormattedChapterNumber

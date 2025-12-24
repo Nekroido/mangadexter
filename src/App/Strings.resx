@@ -33,7 +33,85 @@
     <data name="Pages.Root.Messages.Exiting" xml:space="preserve">
         <value>Exiting...</value>
     </data>
+    <data name="Pages.Search.AskMangaTitle" xml:space="preserve">
+        <value>Manga title:</value>
+    </data>
+    <data name="Pages.Search.SearchStatus" xml:space="preserve">
+        <value>Searching for {0}</value>
+    </data>
+    <data name="Pages.Search.FoundWorks" xml:space="preserve">
+        <value>Found works:</value>
+    </data>
+    <data name="Pages.Manga.SelectAction" xml:space="preserve">
+        <value>Select action:</value>
+    </data>
+    <data name="Pages.Manga.Actions.SelectChapters" xml:space="preserve">
+        <value>Select chapters to download</value>
+    </data>
+    <data name="Pages.Manga.Actions.DownloadAllChapters" xml:space="preserve">
+        <value>Download all chapters</value>
+    </data>
+    <data name="Pages.Manga.Actions.Return" xml:space="preserve">
+        <value>← Return</value>
+    </data>
+    <data name="Pages.Manga.FetchChaptersStatus" xml:space="preserve">
+        <value>Fetching chapters for {0}</value>
+    </data>
+    <data name="Pages.Manga.SelectChaptersPrompt" xml:space="preserve">
+        <value>Select chapters:</value>
+    </data>
+    <data name="Pages.Preferences.SavePathLabel" xml:space="preserve">
+        <value>Save path</value>
+    </data>
+    <data name="Pages.Preferences.LanguageLabel" xml:space="preserve">
+        <value>Language</value>
+    </data>
+    <data name="Pages.Preferences.QualityLabel" xml:space="preserve">
+        <value>Quality</value>
+    </data>
+    <data name="Pages.Preferences.ReturnLabel" xml:space="preserve">
+        <value>← Return</value>
+    </data>
+    <data name="Pages.Preferences.Actions.SavePath" xml:space="preserve">
+        <value>Save path</value>
+    </data>
+    <data name="Pages.Preferences.Actions.Language" xml:space="preserve">
+        <value>Language</value>
+    </data>
+    <data name="Pages.Preferences.Actions.Quality" xml:space="preserve">
+        <value>Quality</value>
+    </data>
+    <data name="Pages.Preferences.Actions.Return" xml:space="preserve">
+        <value>← Return</value>
+    </data>
+    <data name="Pages.Preferences.AskSavePath" xml:space="preserve">
+        <value>Provide save path</value>
+    </data>
+    <data name="Pages.Preferences.AskQuality" xml:space="preserve">
+        <value>Select preferred quality</value>
+    </data>
+    <data name="Pages.Preferences.AskLanguage" xml:space="preserve">
+        <value>Select preferred language</value>
+    </data>
+    <data name="Pages.Preferences.CurrentPreferencesHeader" xml:space="preserve">
+        <value>Current preferences:</value>
+    </data>
+    <data name="Pages.Preferences.SelectSettingPrompt" xml:space="preserve">
+        <value>Select a setting you wish to update</value>
+    </data>
     <data name="Errors.UnknownAction" xml:space="preserve">
         <value>Unknown action '{0}'</value>
+    </data>
+    <data name="Console.TableHeaders.SavePath" xml:space="preserve">
+        <value>Save path</value>
+    </data>
+    <data name="Console.TableHeaders.ImageQuality" xml:space="preserve">
+        <value>Image quality</value>
+    </data>
+    <data name="Console.TableHeaders.Language" xml:space="preserve">
+        <value>Language</value>
+    </data>
+    <data name="Manga.Volume" xml:space="preserve">
+        <value>Volume {0}</value>
     </data>
 </root>

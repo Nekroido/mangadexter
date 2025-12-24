@@ -8,12 +8,12 @@ Master todo for Mangadexter F# console application. Six linked work streams cove
 
 | Work Stream | Status | Priority | Effort | Owner |
 |-------------|--------|----------|--------|-------|
-| [.NET Migration](plan/0000-dotnet-migration.md) | Not Started | 🔴 HIGH | 2–3 days | Framework Lead |
-| [Paket → NuGet](plan/0001-paket-to-nuget.md) | Not Started | 🔴 HIGH | 1–2 days | Dependency Manager |
-| [Package Updates](plan/0002-package-updates.md) | Not Started | 🟡 MEDIUM | 1 day | Maintainer |
-| [Code Style Guide](plan/0003-code-style-guide.md) | Not Started | 🟡 MEDIUM | 0.5 day | Tech Lead |
-| [String Localization](plan/0004-string-localization.md) | Not Started | 🟡 MEDIUM | 1–2 days | UI/UX Lead |
-| [Testing Infrastructure](plan/0005-testing-infrastructure.md) | Not Started | 🟡 MEDIUM | 2–3 days | QA/CI Lead |
+| [.NET Migration](plan/0000-dotnet-migration.md) | ✅ Complete | 🔴 HIGH | 2–3 days | Framework Lead |
+| [Paket → NuGet](plan/0001-paket-to-nuget.md) | ✅ Complete | 🔴 HIGH | 1–2 days | Dependency Manager |
+| [Package Updates](plan/0002-package-updates.md) | ✅ Complete | 🟡 MEDIUM | 1 day | Maintainer |
+| [Code Style Guide](plan/0003-code-style-guide.md) | ✅ Complete | 🟡 MEDIUM | 0.5 day | Tech Lead |
+| [String Localization](plan/0004-string-localization.md) | ✅ Complete | 🟡 MEDIUM | 1–2 days | UI/UX Lead |
+| [Testing Infrastructure](plan/0005-testing-infrastructure.md) | ✅ Complete | 🟡 MEDIUM | 2–3 days | QA/CI Lead |
 
 ---
 
@@ -43,12 +43,12 @@ Master todo for Mangadexter F# console application. Six linked work streams cove
 
 ## Current State Summary
 
-- **Framework**: .NET 5.0 (EOL Nov 2022); SDK allows net6.0+; net7.0/8.0/9.0 artifacts present but stale; target net10.0
-- **Dependency Manager**: Paket (lock restricted to net5.0); ~7 dependencies, several 2+ years outdated
-- **Testing**: Manual .fsx scripts only; no automated test suite or CI pipeline
-- **Documentation**: Minimal README; copilot-instructions.md excellent but external; no in-code docs
-- **Code Style**: Consistent formatting (.editorconfig enforced); no formal style guide or analyzer rules
-- **Localization**: Partial (Strings.resx exists); ~45 hard-coded UI strings scattered across Pages
+- **Framework**: ✅ .NET 10.0 LTS (net10.0 TFM); migrated from EOL net5.0; build succeeds
+- **Dependency Manager**: ✅ NuGet with Directory.Packages.props (Central Package Management); Paket removed
+- **Dependencies**: ✅ Updated to latest stable versions; FSharp.Data 4.2.9, Spectre.Console 0.49.1, SharpZipLib 1.4.2
+- **Code Style**: ✅ Formal STYLE_GUIDE.md created; XML doc comments added to Data.fs and Manga.fs
+- **Localization**: ✅ All ~40 hard-coded UI strings migrated to Strings.resx; centralized i18n infrastructure in place
+- **Testing**: ✅ xUnit test suite with 14 passing tests; automated test infrastructure operational; manual .fsx scripts archived
 
 ---
 

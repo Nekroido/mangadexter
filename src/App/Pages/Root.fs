@@ -3,15 +3,6 @@ module Pages.Root
 open Console
 open Utils
 
-[<Literal>]
-let SearchMangaLabel = "Search manga"
-
-[<Literal>]
-let PreferencesLabel = "Update preferences"
-
-[<Literal>]
-let ExitLabel = "✕ Exit"
-
 [<RequireQualifiedAccess>]
 type Action =
     | SearchManga
@@ -20,15 +11,15 @@ type Action =
 
     static member toString x =
         match x with
-        | Action.SearchManga -> SearchMangaLabel
-        | Action.Preferences -> PreferencesLabel
-        | Action.Exit -> ExitLabel
+        | Action.SearchManga -> Strings.Strings.GetString "Pages.Root.Actions.SearchManga"
+        | Action.Preferences -> Strings.Strings.GetString "Pages.Root.Actions.Preferences"
+        | Action.Exit -> Strings.Strings.GetString "Pages.Root.Actions.Exit"
 
     static member fromString x =
         match x with
-        | SearchMangaLabel -> Action.SearchManga
-        | PreferencesLabel -> Action.Preferences
-        | ExitLabel -> Action.Exit
+        | s when s = Strings.Strings.GetString "Pages.Root.Actions.SearchManga" -> Action.SearchManga
+        | s when s = Strings.Strings.GetString "Pages.Root.Actions.Preferences" -> Action.Preferences
+        | s when s = Strings.Strings.GetString "Pages.Root.Actions.Exit" -> Action.Exit
         | _ -> failwith $"Unknown action {x}"
 
 let showActions () =
@@ -45,6 +36,6 @@ let rec handleAction action =
     |> function
         | Action.SearchManga -> Search.initialize initialize
         | Action.Preferences -> Preferences.initialize initialize
-        | Action.Exit -> "Exiting..." |> Console.echo
+        | Action.Exit -> Strings.Strings.GetString "Pages.Root.Messages.Exiting" |> Console.echo
 
 and initialize = showActions >> handleAction

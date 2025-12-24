@@ -3,18 +3,6 @@ module Pages.Preferences
 open Console
 open Utils
 
-[<Literal>]
-let SavePathLabel = "Save path"
-
-[<Literal>]
-let LanguageLabel = "Language"
-
-[<Literal>]
-let QualityLabel = "Quality"
-
-[<Literal>]
-let ReturnLabel = "← Return"
-
 [<RequireQualifiedAccess>]
 type Action =
     | SavePath
@@ -24,33 +12,33 @@ type Action =
 
     static member toString x =
         match x with
-        | Action.SavePath -> SavePathLabel
-        | Action.Language -> LanguageLabel
-        | Action.Quality -> QualityLabel
-        | Action.Return -> ReturnLabel
+        | Action.SavePath -> Strings.Strings.GetString "Pages.Preferences.Actions.SavePath"
+        | Action.Language -> Strings.Strings.GetString "Pages.Preferences.Actions.Language"
+        | Action.Quality -> Strings.Strings.GetString "Pages.Preferences.Actions.Quality"
+        | Action.Return -> Strings.Strings.GetString "Pages.Preferences.Actions.Return"
 
     static member fromString x =
         match x with
-        | SavePathLabel -> Action.SavePath
-        | LanguageLabel -> Action.Language
-        | QualityLabel -> Action.Quality
-        | ReturnLabel -> Action.Return
+        | s when s = Strings.Strings.GetString "Pages.Preferences.Actions.SavePath" -> Action.SavePath
+        | s when s = Strings.Strings.GetString "Pages.Preferences.Actions.Language" -> Action.Language
+        | s when s = Strings.Strings.GetString "Pages.Preferences.Actions.Quality" -> Action.Quality
+        | s when s = Strings.Strings.GetString "Pages.Preferences.Actions.Return" -> Action.Return
         | _ -> failwith $"Unknown action {x}"
 
 let askForSavePath (defaultPath: string) =
-    TextPrompt.create "Provide save path" defaultPath
+    TextPrompt.create (Strings.Strings.GetString "Pages.Preferences.AskSavePath") defaultPath
     |> Console.prompt
 
 let askForQuality (defaultQuality: Preferences.Quality) =
     MenuPrompt.create<Preferences.Quality>
-        "Select preferred quality"
+        (Strings.Strings.GetString "Pages.Preferences.AskQuality")
         (DiscriminatedUnion.listCases<Preferences.Quality> ())
         Preferences.Quality.toString
     |> Console.prompt
 
 let askForLanguage (defaultQuality: Preferences.Language) =
     MenuPrompt.create<Preferences.Language>
-        "Select preferred language"
+        (Strings.Strings.GetString "Pages.Preferences.AskLanguage")
         (DiscriminatedUnion.listCases<Preferences.Language> ())
         Preferences.Language.toString
     |> Console.prompt
@@ -64,9 +52,9 @@ let updateLanguage language = Preferences.updateLanguage language
 let getCurrentPreferences = Preferences.loadPreferences
 
 let renderPreferencesTable (preferences: Preferences.Preferences) =
-    Table.create [ "Save path"
-                   "Image quality"
-                   "Language" ]
+    Table.create [ Strings.Strings.GetString "Console.TableHeaders.SavePath"
+                   Strings.Strings.GetString "Console.TableHeaders.ImageQuality"
+                   Strings.Strings.GetString "Console.TableHeaders.Language" ]
     |> Table.addRow [ preferences.SavePath
                       preferences.Quality
                       preferences.Language ]
@@ -74,14 +62,14 @@ let renderPreferencesTable (preferences: Preferences.Preferences) =
 let showActions () =
     Console.clear ()
 
-    "Current preferences:" |> Console.echo
+    Strings.Strings.GetString "Pages.Preferences.CurrentPreferencesHeader" |> Console.echo
 
     getCurrentPreferences ()
     |> renderPreferencesTable
     |> Console.render
 
     MenuPrompt.create<Action>
-        "Select a setting you wish to update"
+        (Strings.Strings.GetString "Pages.Preferences.SelectSettingPrompt")
         (DiscriminatedUnion.listCases<Action> ())
         Action.toString
     |> Console.prompt

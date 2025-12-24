@@ -7,7 +7,7 @@ open Utils
 
 let askForMangaTitle () =
     Console.clear ()
-    "Manga title:" |> Console.ask
+    Strings.Strings.GetString "Pages.Search.AskMangaTitle" |> Console.ask
 
 let searchMangaByTitle title =
     let preferredLanguage =
@@ -16,10 +16,10 @@ let searchMangaByTitle title =
 
     title
     |> Manga.searchManga 30 0 preferredLanguage
-    |> Console.status $"Searching for %s{title}"
+    |> Console.status (Strings.Strings.GetString "Pages.Search.SearchStatus" |> sprintf "%s" |> fun fmt -> fmt.Replace("{0}", title))
 
 let selectManga (listResult: MangaList.Root) =
-    SelectionPrompt.create<Manga> "Found works:"
+    SelectionPrompt.create<Manga> (Strings.Strings.GetString "Pages.Search.FoundWorks")
     |> SelectionPrompt.addChoices listResult.Data
     |> SelectionPrompt.withConverter (Func<Manga, string>(Manga.getTitle))
     |> Console.prompt
