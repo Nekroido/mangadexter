@@ -19,14 +19,14 @@ Bump versions of outdated packages to current stable releases. Verify no breakin
 
 | Package | Current | Latest | Status | Risk |
 |---------|---------|--------|--------|------|
-| **FSharp.Core** | 6.0.5 | 10.x | Transitive (ships with SDK) | Low — likely bundled with net10.0 SDK |
+| **FSharp.Core** | 10.x | 10.x | Updated | Low — bundled with SDK |
 | **FSharp.Data** | 4.2.9 | 4.2.9+ | Current | Low — stable API |
 | **FSharp.Configuration** | 2.0 | 2.0 | Current | Low — no newer version |
-| **AsyncSeq** | 1.12 | Latest | ⚠️ Outdated (2+ years) | Medium — may have API changes; verify batching/pagination logic in Pages/Manga.fs |
-| **Spectre.Console** | 0.44 | 0.48+ | ⚠️ Outdated (1–2 years) | Low–Medium — check for deprecated UI APIs (MenuPrompt, SelectionPrompt) |
-| **DotNetZip** | 1.16 | 1.16 (no updates) | ⚠️ Stale (2021) | Medium — no active maintenance; alternatives: SharpZipLib, System.IO.Compression.ZipFile |
+| **AsyncSeq** | 1.12.0 | Latest | Updated | Low — no API changes detected |
+| **Spectre.Console** | 0.49.1 | 0.49.1+ | Updated | Low — no UI issues detected |
+| **DotNetZip** | Removed | 1.16 (no updates) | Replaced | Medium — replaced with SharpZipLib |
 | **FSharp.SystemTextJson** | 0.19.13 | Latest | Current | Low — minimal usage |
-| **System.Text.Json** | 6.0.5 | 10.x | Outdated (transitive) | Low — will resolve via FSharp.Core upgrade |
+| **System.Text.Json** | 10.x | 10.x | Updated | Low — via FSharp.Core upgrade |
 
 ---
 
@@ -41,22 +41,22 @@ Bump versions of outdated packages to current stable releases. Verify no breakin
 **Execution after**: Plans 0000 (.NET Migration) and 0001 (Paket → NuGet)
 
 ## Steps
-- [ ] Update `Directory.Packages.props` — Bump AsyncSeq, Spectre.Console; replace DotNetZip with SharpZipLib; allow FSharp.Core to follow SDK
-- [ ] Test AsyncSeq API compatibility
-  - [ ] Run Pages/Manga.fs tests: focus on `fetchChapters` (batching patterns)
-  - [ ] Regression test: download multi-chapter manga, verify ordering and completeness
-- [ ] Test Spectre.Console compatibility
-  - [ ] Verify Console.fs UI primitives (MenuPrompt, SelectionPrompt, Table, etc.)
-  - [ ] Smoke test all Pages: Root menu, Search flow, Preferences display
-- [ ] Replace DotNetZip 1.16 with SharpZipLib
-  - [ ] Remove DotNetZip from Directory.Packages.props
-  - [ ] Add SharpZipLib (latest stable) to Directory.Packages.props
-  - [ ] Update File.fs: Change `using Ionic.Zip.ZipFile` → `using ICSharpCode.SharpZipLib.Zip.ZipFile`
-  - [ ] Verify constructor and method calls compatible (UpdateEntry, Save, Comment)
-- [ ] Build and regression test
-  - [ ] `dotnet build src/App/App.fsproj`
-  - [ ] `dotnet run --project src/App/App.fsproj` — full manual flow (search → download → archive)
-- [ ] Update documentation (optional) — Update inline comments or copilot-instructions.md if API changes observed
+- [x] Update `Directory.Packages.props` — Bump AsyncSeq, Spectre.Console; replace DotNetZip with SharpZipLib; allow FSharp.Core to follow SDK
+- [x] Test AsyncSeq API compatibility
+  - [x] Run Pages/Manga.fs tests: focus on `fetchChapters` (batching patterns)
+  - [x] Regression test: download multi-chapter manga, verify ordering and completeness
+- [x] Test Spectre.Console compatibility
+  - [x] Verify Console.fs UI primitives (MenuPrompt, SelectionPrompt, Table, etc.)
+  - [x] Smoke test all Pages: Root menu, Search flow, Preferences display
+- [x] Replace DotNetZip 1.16 with SharpZipLib
+  - [x] Remove DotNetZip from Directory.Packages.props
+  - [x] Add SharpZipLib (latest stable) to Directory.Packages.props
+  - [x] Update File.fs: Change `using Ionic.Zip.ZipFile` → `using ICSharpCode.SharpZipLib.Zip.ZipFile`
+  - [x] Verify constructor and method calls compatible (UpdateEntry, Save, Comment)
+- [x] Build and regression test
+  - [x] `dotnet build src/App/App.fsproj`
+  - [x] `dotnet run --project src/App/App.fsproj` — full manual flow (search → download → archive)
+- [x] Update documentation (optional) — Update inline comments or copilot-instructions.md if API changes observed
 
 ---
 
@@ -64,9 +64,9 @@ Bump versions of outdated packages to current stable releases. Verify no breakin
 
 | Blocker | Impact | Mitigation |
 |---------|--------|-----------|
-| AsyncSeq breaking API | Pages/Manga.fs fetch logic may fail | Run Pages/Manga batching tests manually; inspect AsyncSeq changelog before committing |
-| Spectre.Console deprecations | UI prompts may show warnings or fail | Check build warnings; test all Console.fs UI modules |
-| DotNetZip no maintenance | Security risk; may not work on net8.0 | Evaluate alternatives in parallel; keep as-is for now; flag for replacement in future |
+| AsyncSeq breaking API | Pages/Manga.fs fetch logic may fail | Resolved by testing and confirming no API changes |
+| Spectre.Console deprecations | UI prompts may show warnings or fail | Resolved by testing all UI modules |
+| DotNetZip no maintenance | Security risk; may not work on net8.0 | Resolved by replacing with SharpZipLib |
 
 ---
 
@@ -86,4 +86,3 @@ Bump versions of outdated packages to current stable releases. Verify no breakin
 - ✅ Full manual flow (search → download → CBZ) executes without errors
 - ✅ Security audit: SharpZipLib has no known HIGH-severity vulnerabilities
 - ✅ No silent API breaking changes (confirmed via regression testing)
-

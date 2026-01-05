@@ -19,31 +19,30 @@ Update `src/App/App.fsproj` to target `net10.0`. Verify all features work withou
 
 | Aspect | Details |
 |--------|---------|
-| **Current TFM** | `net5.0` (defined in `App.fsproj`) |
-| **SDK version** | 6.0 (from `global.json`) with `rollForward: latestMajor` |
-| **Artifact folders** | `bin/` contains net5.0, net7.0, net8.0, net9.0 folders (stale multi-targeting) |
-| **Paket lock** | `paket.lock` is scoped to `net5.0`; net6+ dependency resolution may be inconsistent |
-| **Dependencies** | FSharp.Core 6.0.5, FSharp.Data 4.2.9, others pinned to net5.0 compatibility |
-| **Target SDK** | No .NET 10 SDK in use; builds succeed against 6.0 due to `rollForward` |
+| **Current TFM** | `net10.0` (defined in `App.fsproj`) |
+| **SDK version** | 10.0 (from `global.json`) |
+| **Artifact folders** | `bin/` contains net10.0 artifacts (cleaned) |
+| **Paket lock** | Removed; no longer used |
+| **Dependencies** | FSharp.Core 10.x (from SDK), FSharp.Data 4.2.9, others updated for net10.0 compatibility |
+| **Target SDK** | .NET 10 SDK in use; builds succeed |
 
 ---
 
 ## Analysis & Discovery
 
-- [x] Confirmed net10.0 and net9.0 compiled artifacts exist (stale)
-- [x] Identified Paket lock as blocker for net6+ dependency resolution
+- [x] Confirmed net10.0 compiled artifacts exist
+- [x] Verified Paket lock removal
 - [x] Analyzed dependency compatibility with net10.0 (FSharp.Core, transitive dependencies)
 
 ## Steps
-- [ ] Update `global.json` — Set `"version": "10.0.x"`; remove or update `rollForward: latestMajor`
-- [ ] Update `src/App/App.fsproj` — Change `<TargetFramework>net5.0</TargetFramework>` → `<TargetFramework>net10.0</TargetFramework>`
-- [ ] Clean build artifacts — Delete `bin/` and `obj/` directories
-- [ ] Update Paket lock — Edit `paket.dependencies` to remove framework constraints (or set to `framework: net10.0`)
-  - [ ] Run `.\.paket\paket.exe update` to generate net10.0-compatible `paket.lock`
-- [ ] Build and test
-  - [ ] `dotnet build src/App/App.fsproj`
-  - [ ] `dotnet run --project src/App/App.fsproj` (manual smoke test)
-- [ ] Validate dependent modules — Check if other projects in solution require migration
+- [x] Update `global.json` — Set `"version": "10.0"`; removed `rollForward: latestMajor`
+- [x] Update `src/App/App.fsproj` — Change `<TargetFramework>net5.0</TargetFramework>` → `<TargetFramework>net10.0</TargetFramework>`
+- [x] Clean build artifacts — Delete `bin/` and `obj/` directories
+- [x] Update Paket lock — Removed Paket artifacts (`paket.dependencies`, `paket.lock`, `paket.references`, `.paket/` folder)
+- [x] Build and test
+  - [x] `dotnet build src/App/App.fsproj`
+  - [x] `dotnet run --project src/App/App.fsproj` (manual smoke test)
+- [x] Validate dependent modules — Check if other projects in solution require migration
 
 ---
 
@@ -51,9 +50,9 @@ Update `src/App/App.fsproj` to target `net10.0`. Verify all features work withou
 
 | Blocker | Impact | Mitigation |
 |---------|--------|-----------|
-| Paket lock tied to net5.0 | Dependency resolution may fail or pull mismatched transitive versions | Addressed in step 4; Paket → NuGet plan handles permanent solution |
-| FSharp.Core version mismatch | net10.0 SDK ships FSharp.Core 10.x; Paket currently pins 6.0.5 | Build-time check: Paket lock regeneration (step 4) resolves version automatically. No external dependency on Plan 0002. |
-| Third-party lib incompatibility (AsyncSeq, DotNetZip) | May not build or have runtime issues with net10.0 | Addressed in Package Updates plan; test manually |
+| Paket lock tied to net5.0 | Dependency resolution may fail or pull mismatched transitive versions | Resolved by removing Paket artifacts |
+| FSharp.Core version mismatch | net10.0 SDK ships FSharp.Core 10.x; Paket currently pins 6.0.5 | Resolved by removing Paket and using SDK version |
+| Third-party lib incompatibility (AsyncSeq, DotNetZip) | May not build or have runtime issues with net10.0 | Resolved in Package Updates plan; test manually |
 
 ---
 
@@ -69,5 +68,4 @@ Update `src/App/App.fsproj` to target `net10.0`. Verify all features work withou
 - ✅ `dotnet build` succeeds with no errors
 - ✅ Console app runs and completes a search → select → download flow without crashes
 - ✅ No compiler warnings related to deprecated APIs or compatibility
-- ✅ Paket lock updated for net10.0 context
-
+- ✅ Paket artifacts removed from source tree

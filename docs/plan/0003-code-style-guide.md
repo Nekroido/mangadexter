@@ -21,10 +21,10 @@ Document existing code style conventions in a formal guide. Add XML doc comments
 |--------|---------|
 | **Existing conventions** | Consistent: PascalCase types/modules, camelCase params/locals, [RequireQualifiedAccess] on domain modules, functional composition, Result<T,string> error handling |
 | **.editorconfig** | Present; enforces max_line_length=90, LF endings, final newline |
-| **Doc comments** | ❌ None (6 comment lines total, mostly inline comments) |
-| **Analyzer rules** | ❌ None enabled in .fsproj |
-| **Style guide** | ❌ No formal document; conventions inferred from code |
-| **TODO** | One found in File.fs: "delete existing file?" — indicates pending cleanup logic |
+| **Doc comments** | ✅ Added to public APIs |
+| **Analyzer rules** | ✅ Configured in .fsproj |
+| **Style guide** | ✅ `docs/STYLE_GUIDE.md` document created |
+| **TODO** | Resolved: File.fs TODO clarified and documented |
 
 ---
 
@@ -42,24 +42,24 @@ Document existing code style conventions in a formal guide. Add XML doc comments
 **Coordination notes** (asynchronous, non-blocking): Analyzer rules integrate into CI later (Plan 0005); does not block parallel execution with Plan 0004.
 
 ## Steps
-- [ ] Create `docs/STYLE_GUIDE.md`
-  - [ ] Document naming conventions (PascalCase types, camelCase locals, UPPERCASE constants)
-  - [ ] Document module organization (single responsibility, [RequireQualifiedAccess])
-  - [ ] Document error handling pattern (Result<'T, string>, no exceptions)
-  - [ ] Document async patterns (async { }, AsyncSeq for streaming)
-  - [ ] Document type annotations and comment style
-- [ ] Add XML doc comments to public APIs
-  - [ ] Target: Data.fs, Manga.fs, Pages/*.fs (public functions, types, modules)
-  - [ ] Format: Standard F# `/// <summary>...</summary>`
-- [ ] Configure F# analyzer rules (non-optional)
-  - [ ] Add FSharp.Analyzers.SDK to Directory.Packages.props
-  - [ ] Add `<Analyzer>` items to App.fsproj
-  - [ ] Enable rules: unused imports, naming conventions, line length consistency
-- [ ] Resolve existing TODO in File.fs — Clarify CBZ overwrite behavior
-- [ ] Review and merge
-  - [ ] Run `dotnet build` (verify no analyzer regressions)
-  - [ ] Peer review STYLE_GUIDE.md
-  - [ ] Update copilot-instructions.md cross-reference
+- [x] Create `docs/STYLE_GUIDE.md`
+  - [x] Document naming conventions (PascalCase types, camelCase locals, UPPERCASE constants)
+  - [x] Document module organization (single responsibility, [RequireQualifiedAccess])
+  - [x] Document error handling pattern (Result<'T, string>, no exceptions)
+  - [x] Document async patterns (async { }, AsyncSeq for streaming)
+  - [x] Document type annotations and comment style
+- [x] Add XML doc comments to public APIs
+  - [x] Target: Data.fs, Manga.fs, Pages/*.fs (public functions, types, modules)
+  - [x] Format: Standard F# `/// <summary>...</summary>`
+- [x] Configure F# analyzer rules (non-optional)
+  - [x] Add FSharp.Analyzers.SDK to Directory.Packages.props
+  - [x] Add `<Analyzer>` items to App.fsproj
+  - [x] Enable rules: unused imports, naming conventions, line length consistency
+- [x] Resolve existing TODO in File.fs — Clarify CBZ overwrite behavior
+- [x] Review and merge
+  - [x] Run `dotnet build` (verify no analyzer regressions)
+  - [x] Peer review STYLE_GUIDE.md
+  - [x] Update copilot-instructions.md cross-reference
 
 ---
 
@@ -67,8 +67,8 @@ Document existing code style conventions in a formal guide. Add XML doc comments
 
 | Blocker | Impact | Mitigation |
 |---------|--------|-----------|
-| No established code review process | Style guide not enforced | Use analyzer rules in CI (future plan) to catch violations; document as aspirational for now |
-| XML doc comments are verbose | May slow initial adoption | Start with public-facing modules (Data, Manga, Pages); expand incrementally |
+| No established code review process | Style guide not enforced | Analyzer rules in CI (future plan) will catch violations; documented as aspirational |
+| XML doc comments are verbose | May slow initial adoption | Started with public-facing modules (Data, Manga, Pages); expanded incrementally |
 
 ---
 
@@ -87,4 +87,3 @@ Document existing code style conventions in a formal guide. Add XML doc comments
 - ✅ `dotnet build src/App/App.fsproj` runs without analyzer warnings on committed code
 - ✅ File.fs TODO resolved and documented
 - ✅ `.editorconfig` remains enforced and consistent with STYLE_GUIDE.md
-

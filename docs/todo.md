@@ -6,14 +6,14 @@ Master todo for Mangadexter F# console application. Six linked work streams cove
 
 ## Overview
 
-| Work Stream | Status | Priority | Effort | Owner |
-|-------------|--------|----------|--------|-------|
-| [.NET Migration](plan/0000-dotnet-migration.md) | ✅ Complete | 🔴 HIGH | 2–3 days | Framework Lead |
-| [Paket → NuGet](plan/0001-paket-to-nuget.md) | ✅ Complete | 🔴 HIGH | 1–2 days | Dependency Manager |
-| [Package Updates](plan/0002-package-updates.md) | ✅ Complete | 🟡 MEDIUM | 1 day | Maintainer |
-| [Code Style Guide](plan/0003-code-style-guide.md) | ✅ Complete | 🟡 MEDIUM | 0.5 day | Tech Lead |
-| [String Localization](plan/0004-string-localization.md) | ✅ Complete | 🟡 MEDIUM | 1–2 days | UI/UX Lead |
-| [Testing Infrastructure](plan/0005-testing-infrastructure.md) | ✅ Complete | 🟡 MEDIUM | 2–3 days | QA/CI Lead |
+| Work Stream | Status |
+|-------------|-|
+| [.NET Migration](plan/0000-dotnet-migration.md) | ✅ Complete |
+| [Paket → NuGet](plan/0001-paket-to-nuget.md) | ✅ Complete |
+| [Package Updates](plan/0002-package-updates.md) | ✅ Complete |
+| [Code Style Guide](plan/0003-code-style-guide.md) | ✅ Complete |
+| [String Localization](plan/0004-string-localization.md) | ✅ Complete |
+| [Testing Infrastructure](plan/0005-testing-infrastructure.md) | ✅ Complete |
 
 ---
 
@@ -34,7 +34,7 @@ Master todo for Mangadexter F# console application. Six linked work streams cove
 
 ## Key Milestones
 
-- **Phase 1 (Stabilization)**: Complete net5 → net8 migration, Paket → NuGet transition, package bumps
+- **Phase 1 (Stabilization)**: Complete net5 → net10 migration, Paket → NuGet transition, package bumps
   - **Trigger for Phase 2**: All projects build without errors; manual testing confirms feature parity
 - **Phase 2 (Quality)**: Document code style, localize remaining strings, establish test suite
   - **Trigger for Release**: 70%+ code coverage, all CI checks pass, manual smoke test succeeds
@@ -54,7 +54,6 @@ Master todo for Mangadexter F# console application. Six linked work streams cove
 
 ## Tracking
 
-- Each plan file (`docs/plan/NN-*.md`) is independently responsible for its goal, blockers, and status
+- Each plan file (`docs/plan/NNNN-*.md`) is independently responsible for its goal, blockers, and status
 - This master todo aggregates status across all work streams
 - **Update cadence**: After each plan phase completion, update corresponding entry above
-
