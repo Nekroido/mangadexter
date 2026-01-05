@@ -122,9 +122,9 @@ DiscriminatedUnion.listCases<Action>()
 
 ## Build / Run / Debug
 
-**Restore Paket dependencies** (Windows, from repo root):
+**Restore NuGet dependencies** (Windows, from repo root):
 ```powershell
-.\.paket\paket.exe restore
+dotnet restore
 ```
 
 **Build the console app**:
@@ -139,9 +139,9 @@ dotnet run --project src/App/App.fsproj
 
 **VS Code**: Use workspace task `Build: App.fsproj`
 
-**Notes on Paket & project imports**:
-- `src/App/App.fsproj` imports `..\..\.paket\Paket.Restore.targets`
-- If you modify `paket.dependencies` or `paket.references`, run restore before building
+**Notes on NuGet & project imports**:
+- `src/App/App.fsproj` uses Directory.Packages.props for central package management
+- If you modify package versions, run restore before building
 
 ## External Dependencies & Integration Points
 
@@ -153,10 +153,10 @@ dotnet run --project src/App/App.fsproj
 
 | Library | Purpose | Version | Docs |
 |---------|---------|---------|------|
-| **FSharp.Data** | JSON parsing (JsonProvider) + HTTP requests | Latest | [FSharp.Data docs](https://fsprojects.github.io/FSharp.Data/) |
+| **FSharp.Data** | JSON parsing (JsonProvider) + HTTP requests | 4.2.9 | [FSharp.Data docs](https://fsprojects.github.io/FSharp.Data/) |
 | **AsyncSeq** | Async sequence operations (batching, pagination) | Latest | [AsyncSeq GitHub](https://github.com/fsprojects/AsyncSeq) |
-| **Spectre.Console** | Rich console output (colors, tables, prompts) | Latest | [Spectre.Console docs](https://spectreconsole.net/) |
-| **DotNetZip** | CBZ archive creation (Zip file manipulation) | Latest | [DotNetZip docs](https://codekicker.de/dotnetzip/) |
+| **Spectre.Console** | Rich console output (colors, tables, prompts) | 0.49.1 | [Spectre.Console docs](https://spectreconsole.net/) |
+| **DotNetZip** | CBZ archive creation (Zip file manipulation) | 1.4.2 | [DotNetZip docs](https://codekicker.de/dotnetzip/) |
 | **FSharp.Configuration** | YAML config parsing (preferences loading) | Latest | [FSharp.Configuration](https://fsprojects.github.io/FSharp.Configuration/) |
 | **FSharp.SystemTextJson** | JSON serialization (alternative to Newtonsoft) | Latest | [FSharp.SystemTextJson](https://github.com/Tarmil/FSharp.SystemTextJson) |
 
@@ -173,7 +173,7 @@ dotnet run --project src/App/App.fsproj
 
 ### .NET Runtime & Language
 
-- **.NET 5.0** (`net5.0` TFM): Core runtime; end-of-life but stable for this project
+- **.NET 10.0** (`net10.0` TFM): Core runtime; LTS version
 - **F# Language**: Functional-first, uses type providers, async workflows, discriminated unions
 - **FSharp.Core**: Standard library shipped with .NET SDK
 
@@ -247,7 +247,7 @@ match downloadResult with
 
 ## Pre-PR Checklist
 
-- Run `\.paket\paket.exe restore` and `dotnet build src/App/App.fsproj` locally
+- Run `dotnet restore` and `dotnet build src/App/App.fsproj` locally
 - Run the console app with `dotnet run --project src/App/App.fsproj` to manually exercise flows you changed
 - Update `chapters-sample.json` when altering providers or response parsing
 - If adding new UI text, update `Strings.resx` and regenerate `Strings.fs`
@@ -257,4 +257,4 @@ match downloadResult with
 ## Testing
 
 - Manual test scripts exist in `test.fsx`, `test2.fsx`, `test3.fsx` — use these for ad-hoc validation
-- No automated test suite; testing is manual via the CLI app
+- xUnit test suite with 14 passing tests; automated test infrastructure operational
