@@ -71,6 +71,7 @@ let fetchChapters (manga: Manga) =
                 |> Chapter.listChapters 100 offset preferredLanguage
 
             if offset < chapterListResult.Total then
+                System.Threading.Thread.Sleep(100) // to avoid rate limiting
                 return
                     Some
                     <| (chapterListResult.Data |> List.ofSeq,
