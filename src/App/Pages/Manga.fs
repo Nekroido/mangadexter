@@ -226,9 +226,17 @@ let rec handleAction returnAction manga action =
             manga
             |> fetchChapters
             |> Result.proceedIfOk
-            |> selectChapters
-            |> downloadChapters manga
-            |> refresh
+            |> fun chapters ->
+                if Seq.isEmpty chapters then
+                    Console.clear ()
+                    Console.echo (Strings.Strings.GetString "Pages.Manga.NoChaptersNotice")
+                    System.Threading.Thread.Sleep(2000)
+                    refresh ()
+                else
+                    chapters
+                    |> selectChapters
+                    |> downloadChapters manga
+                    |> refresh
         | Action.DownloadAllChapters ->
             manga
             |> fetchChapters

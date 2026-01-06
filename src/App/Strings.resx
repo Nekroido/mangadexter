@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -57,12 +57,15 @@
     <data name="Pages.Manga.FetchChaptersStatus" xml:space="preserve">
         <value>Fetching chapters for {0}</value>
     </data>
-    <data name="Pages.Manga.SelectChaptersPrompt" xml:space="preserve">
-        <value>Select chapters:</value>
-    </data>
-    <data name="Pages.Preferences.SavePathLabel" xml:space="preserve">
-        <value>Save path</value>
-    </data>
+     <data name="Pages.Manga.SelectChaptersPrompt" xml:space="preserve">
+         <value>Select chapters:</value>
+     </data>
+     <data name="Pages.Manga.NoChaptersNotice" xml:space="preserve">
+         <value>No chapters are available</value>
+     </data>
+     <data name="Pages.Preferences.SavePathLabel" xml:space="preserve">
+         <value>Save path</value>
+     </data>
     <data name="Pages.Preferences.LanguageLabel" xml:space="preserve">
         <value>Language</value>
     </data>
